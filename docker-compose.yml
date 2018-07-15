@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - mysql
+    environment:
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
+
+  mysql:
+    image: mariadb #10.3.7-MariaDB ?
+    restart: always
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: pa55w0rd
