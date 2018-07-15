@@ -2,12 +2,15 @@ version: "3.3"
 
 services:
   wordpress:
-    image: wordpress
+    build: dockerfiles/wordpress
     restart: always
     ports:
       - 8080:80
     links:
       - mysql
+    working_dir: /var/www/html
+    volumes:
+      - ./wp/wp-content/:/var/www/html/wp-content/
     environment:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: password
