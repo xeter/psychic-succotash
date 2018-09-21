@@ -34,7 +34,7 @@ services:
     image: wordpress:cli
     user: xfs
     #Utilise le fichier .env
-    command: /bin/sh -c 'sleep 10; wp core install --path="/var/www/html" --url="http://localhost:8080" --title="${WEBSITE_TITLE}" --admin_user="${WEBSITE_ADMIN_USER}" --admin_password="${WEBSITE_ADMIN_USER_PASSWORD}" --admin_email="${WEBSITE_ADMIN_USER_EMAIL}"'
+    command: /bin/sh -c 'sleep 10; wp core install --path="/var/www/html" --url="${WEBSITE_URL}" --title="${WEBSITE_TITLE}" --admin_user="${WEBSITE_ADMIN_USER_ID}" --admin_password="${WEBSITE_ADMIN_USER_PASSWORD}" --admin_email="${WEBSITE_ADMIN_USER_EMAIL}"'
     volumes:
       - wp_data:/var/www/html
 
