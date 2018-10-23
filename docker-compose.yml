@@ -34,7 +34,37 @@ services:
     image: wordpress:cli
     user: xfs
     #Utilise le fichier .env
-    command: /bin/sh -c 'sleep 10; wp core install --path="/var/www/html" --url="${WEBSITE_URL}" --title="${WEBSITE_TITLE}" --admin_user="${WEBSITE_ADMIN_USER_ID}" --admin_password="${WEBSITE_ADMIN_USER_PASSWORD}" --admin_email="${WEBSITE_ADMIN_USER_EMAIL}"'
+    command: /bin/sh -c 'sleep 10;
+      wp core install --path="/var/www/html" --url="${WEBSITE_URL}" --title="${WEBSITE_TITLE}" --admin_user="${WEBSITE_ADMIN_USER_ID}" --admin_password="${WEBSITE_ADMIN_USER_PASSWORD}" --admin_email="${WEBSITE_ADMIN_USER_EMAIL}";
+      wp core download --locale=fr_FR --force;
+      wp plugin install better-wp-security;
+      wp theme install hueman --activate;
+      wp post create --post_type=page --post_title="Accueil" --post_status=publish;
+      wp post create --post_type=page --post_title="Veille globale" --post_status=publish;
+      wp post create --post_type=page --post_title="Veille locale" --post_status=publish;
+      wp post create --post_type=page --post_title="Pour les nuls" --post_status=publish;
+      curl http://loripsum.net/api/5 | wp post generate --post_content --count=5;
+      wp option update show_on_front page;
+      wp option update page_on_front 4;
+      wp option update page_for_posts 5;
+      wp menu create "Menu Principal";
+      wp menu item add-post menu-principal 4;
+      wp menu item add-post menu-principal 5;
+      wp menu item add-post menu-principal 6;
+      wp menu list;
+      wp menu location assign menu-principal topbar;
+      wp post delete 1 --force;
+      wp post delete 2 --force;
+      wp plugin delete hello;
+      wp theme delete twentytwelve;
+      wp theme delete twentythirteen;
+      wp theme delete twentyfourteen;
+      wp option update blogdescription "";
+      wp rewrite structure "/%postname%/" --hard;
+      wp rewrite flush --hard;
+      wp option update category_base theme;
+      wp option update tag_base sujet;
+      '
     volumes:
       - wp_data:/var/www/html
 
